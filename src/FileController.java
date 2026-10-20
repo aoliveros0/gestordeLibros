@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class FileController extends MemoryController {
     private File dataFolder = new File("data");
-    private File bookFile = new File(dataFolder, "libros.txt");
+    private File bookFile = new File(dataFolder, "bibilio.txt");
 
     public FileController() throws IOException {
         if (!dataFolder.exists()) dataFolder.mkdir();
