@@ -19,7 +19,7 @@ public class FileController extends MemoryController {
 
         // 2. Probamos a escribirlo al final del fichero (true = añadir sin borrar lo anterior)
         try (FileWriter fw = new FileWriter(bookFile, true)) {
-            fw.write(ISBN + "\n" + titol + "\n" + preu + "\n" + autor + "\n" + any + "\n" + genere + "\n");
+            fw.write(ISBN +  titol +  preu +  autor +  any +  genere + "\n");
         } catch (IOException e) {
             // Si falla, lo borramos de la memoria y lanzamos la excepción.
             super.eliminarLibro(ISBN);
@@ -74,8 +74,8 @@ public class FileController extends MemoryController {
     private void guardarTodo() throws IOException {
         try (FileWriter fw = new FileWriter(bookFile)) {
             for (Libros l : super.buscarTodosLibros()) {
-                fw.write(l.getISBN() + "\n" + l.getTitol() + "\n" + l.getPreu() + "\n"
-                        + l.getAutor() + "\n" + l.getAny() + "\n" + l.getGenere() + "\n");
+                fw.write(l.getISBN() +  l.getTitol() +  l.getPreu() +
+                         l.getAutor() +  l.getAny() +  l.getGenere() + "\n");
             }
         }
     }
