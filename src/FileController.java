@@ -14,14 +14,13 @@ public class FileController extends MemoryController {
     @Override
     public Libros crearLibro(String ISBN, String titol, float preu, String autor, int any, String genere)
             throws IOException {
-        // 1. Creamos el libro en memoria
+        // Creamos un libro.
         Libros creador = super.crearLibro(ISBN, titol, preu, autor, any, genere);
-
-        // 2. Probamos a escribirlo al final del fichero (true = añadir sin borrar lo anterior)
+        // Si ya tenemos un libro guardado en el fichero ponemos el true para que si hay un libro ya no se elimine y se ponga de bajo del mismo.
         try (FileWriter fw = new FileWriter(bookFile, true)) {
             fw.write(ISBN +  titol +  preu +  autor +  any +  genere + "\n");
         } catch (IOException e) {
-            // Si falla, lo borramos de la memoria y lanzamos la excepción.
+            // Si por algun casual no se crea correctamente el libro lanzo una excepcion avisando de que ha habido un problema.
             super.eliminarLibro(ISBN);
             throw e;
         }
@@ -30,7 +29,7 @@ public class FileController extends MemoryController {
 
     @Override
     public boolean eliminarLibro(String isbn) throws IOException {
-        // Guardamos el libro por si hay que restaurarlo.
+        // Guardamos los datos del libro por si lo tenemos que restaurar.
         Libros viejo = super.buscarUnLibro(isbn);
         if (viejo == null) return false;
 
@@ -49,18 +48,18 @@ public class FileController extends MemoryController {
 
     @Override
     public void actualizarLibro(String isbn, String[] datosNuevos) throws IOException {
-        // Primero guardamos el estado actual por si hay que restaurarlo.
+        // Lo primeor que hago es guardar como esta ahora mismo el ficheo por si hay que restaurarlo.
         Libros a = super.buscarUnLibro(isbn);
         if (a == null) return;
 
-        // Los datos antiguos para el rollback (mismo orden que MemoryController)
+        // Los datos antiguos  el mismo orden que MemoryController
         String[] datosViejos = {a.getTitol(), String.valueOf(a.getPreu()), a.getAutor(),
                 String.valueOf(a.getAny()), a.getGenere()};
 
-        // Actualizamos la memoria con los datos nuevos.
+        // Actualizo el fichero con los nuevos cambios aplicados.
         super.actualizarLibro(isbn, datosNuevos);
 
-        // Reescribimos el fichero con todos los libros.
+        // Aqui reescribo el fichero con todos los libros que tengamos en el momento.
         try {
             guardarTodo();
         } catch (IOException e) {
@@ -69,8 +68,7 @@ public class FileController extends MemoryController {
             throw e;
         }
     }
-
-    // Escribe TODOS los libros que hay en memoria en el fichero.
+     // Lo que hace es escribir todos los libros que tenemos en el fichero.
     private void guardarTodo() throws IOException {
         try (FileWriter fw = new FileWriter(bookFile)) {
             for (Libros l : super.buscarTodosLibros()) {
@@ -79,8 +77,7 @@ public class FileController extends MemoryController {
             }
         }
     }
-
-    // Lee el fichero: cada libro ocupa 6 líneas seguidas.
+     // Este lo que hace es leer el fichero y lee todos los datos del libro.
     public void cargarLibros() throws IOException {
         try (Scanner sc = new Scanner(bookFile)) {
             while (sc.hasNextLine()) {
