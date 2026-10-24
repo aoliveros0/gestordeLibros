@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,6 +11,9 @@ public class MemoryController {
     // Por ultimo añadimos el libro a nuestra biblioteca y lo devolvemos.
     public Libros crearLibro(String ISBN, String titol, float preu, String autor, int any, String genere)
             throws IOException {
+        if(libres.containsKey(ISBN)) {
+            throw new IllegalArgumentException("ISBN ja existe");
+        }
         Libros nuevoLibro = new Libros(ISBN, titol, preu, autor, any, genere);
         libres.put(nuevoLibro.getISBN(), nuevoLibro);
         return nuevoLibro;
@@ -40,7 +44,6 @@ public class MemoryController {
             libroActualizar.setGenere(datos[4]);
         }
     }
-
     // En este metodo basicamente escribes el ISBN del libro que quieres eliminar y desaparece de la biblioteca.
     public boolean eliminarLibro(String isbnEliminar) throws IOException {
         Libros borrado = libres.remove(isbnEliminar);

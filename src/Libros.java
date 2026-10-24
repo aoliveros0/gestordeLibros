@@ -19,6 +19,9 @@ public class Libros {
     }
 
     public void setTitol(String titol) {
+        if(titol == null || titol.isEmpty()){
+            throw new RuntimeException("Titol nul !");
+        }
         this.titol = titol;
     }
 
@@ -27,6 +30,10 @@ public class Libros {
     }
 
     public void setPreu(float preu) {
+        if(preu <= 0 || Float.isNaN(preu)){
+            throw new IllegalArgumentException("Eso no se puede");
+
+        }
         this.preu = preu;
     }
 
@@ -35,6 +42,9 @@ public class Libros {
     }
 
     public void setAutor(String autor) {
+        if(autor == null || autor.isEmpty()){
+            throw new IllegalArgumentException("Autor nul !");
+        }
         this.autor = autor;
     }
 
@@ -43,7 +53,11 @@ public class Libros {
     }
 
     public void setAny(int any) {
+        if(any < 1950 || any > 2026){
+            throw new IllegalArgumentException("Eso no se puede");
+        }
         this.any = any;
+
     }
 
     public String getGenere() {
@@ -51,6 +65,9 @@ public class Libros {
     }
 
     public void setGenere(String genere) {
+        if(genere == null || genere.isEmpty()){
+            throw new IllegalArgumentException("Eso no se puede");
+        }
         this.genere = genere;
     }
     // Constructor.
