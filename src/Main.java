@@ -1,13 +1,14 @@
 
 import java.io.IOException;
-import java.util.InputMismatchException;
-import java.util.List;
+
 import java.util.Locale;
 import java.util.Scanner;
 
+
 public class Main {
     private static Scanner sc = new Scanner(System.in);
-    public static void main(String[] args) throws IOException,IllegalArgumentException,RuntimeException {
+
+    public static void main(String[] args) throws IOException, IllegalArgumentException, RuntimeException {
         sc.useLocale(Locale.ENGLISH);
 
         MemoryController mcontroller = new FileController();
@@ -18,13 +19,7 @@ public class Main {
             opcion = TUI.devolver();
 
             if (opcion == 1) {
-                try {
-                    String[] datos = TUI.leerdatos();
-                    mcontroller.crearLibro(datos[0], datos[1], Float.parseFloat(datos[2]), datos[3], Integer.parseInt(datos[4]), datos[5]);
-                    System.out.println("El Libro se ha añadido correctamente. ");
-                } catch (Exception e) {
-                    System.out.println("Error al añadir el libro: " + e.getMessage());
-                }
+                crear(mcontroller);
             } else if (opcion == 2) {
                 int buscar = TUI.buscarLibro();
                 if (buscar == 1) {
@@ -71,45 +66,25 @@ public class Main {
 
         } while (opcion != 5);
     }
-   public  static void crear(MemoryController m, TUI t) throws IOException{
-        String ISBN = null, titol = null,  autor = null,  genere = null;
-        float preu = 0.0f;
-        int any = 0;
-        while (true){
-            if(ISBN == null){
-                ISBN = TUI.pedirdatos("ISBN");
-            } if(titol == null){
-                titol = TUI.pedirdatos("titol");
-            } if(preu == 0.0f){
-                preu = TUI.pedirdatos("preu");
-            } if(autor == null){
-                autor = TUI.pedirdatos("autor");
-            } if(any == 0 ){
-                any = TUI.pedirdatos("any");
-            } if(genere == null){
-                genere = TUI.pedirdatos("genere");
-            }
-            try {
-                Libros nuevoLibro = m.crearLibro(ISBN,titol,preu,autor,any,genere);
-                TUI.imprimirLibros(nuevoLibro);
-                break;
-            } catch (RuntimeException e){
-                TUI.mostrarerror(e.getMessage());
-                titol = null;
-            } catch (IllegalArgumentException a){
-                TUI.mostrarerror(a.getMessage());
-                preu = null;
-            } catch (IllegalArgumentException i){
-                TUI.mostrarerror(i.getMessage());
-                autor = null;
-            } catch (IllegalArgumentException n){
-                TUI.mostrarerror(n.getMessage());
-                any = null;
-            } catch (IllegalArgumentException g){
-                TUI.mostrarerror(g.getMessage());
-                genere = null;
-            }
-        }
-     }
 
+    public static void crear(MemoryController m) throws IOException {
+        try {
+            String ISBN = TUI.pedirdatos("ISBN");
+            String titol = TUI.pedirdatos("titol");
+            float preu = Float.parseFloat(TUI.pedirdatos("preu"));
+            String autor = TUI.pedirdatos("autor");
+            int any = Integer.parseInt(TUI.pedirdatos("any"));
+
+            String genere = TUI.pedirdatos("genere");
+
+            Libros nuevoLibro = m.crearLibro(ISBN, titol, preu, autor, any, genere);
+            TUI.imprimirLibros(nuevoLibro);
+
+        } catch (NumberFormatException e) {
+            System.out.println("Error: el precio o el año no son válidos.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
+
+}
