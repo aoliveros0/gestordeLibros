@@ -114,6 +114,10 @@ public  TUI() {
         for (Libros l : librosImprimir) {
             imprimirLibros(l);
         }
+
+    }
+    public static void mostrarerror(String m){
+        System.out.println("Error: " + m);
     }
 }
 
