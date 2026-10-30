@@ -39,7 +39,6 @@ public class Main {
                     }
                 }
             } else if (opcion == 3) {
-                try {
                     String IsbnA = TUI.actualizarlibro();
                     if (mcontroller.buscarUnLibro(IsbnA) != null) {
                         String[] nuevosDatos = TUI.leerdatosActualizar();
@@ -48,9 +47,7 @@ public class Main {
                     } else {
                         TUI.libroNoEncontrado();
                     }
-                } catch (Exception e) {
-                    System.out.println("Error al modificar: " + e.getMessage());
-                }
+
             } else if (opcion == 4) {
                 try {
                     String IsbnE = TUI.buscarISBN();

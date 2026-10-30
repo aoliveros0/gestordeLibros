@@ -21,9 +21,9 @@ public  TUI() {
     // Este basicamente devuelve la opcion que escoges si es añadir etc .
     public static int devolver() {
         try {
-            int val = sc.nextInt();
+            int valor = sc.nextInt();
             sc.nextLine();
-            return val;
+            return valor;
         } catch (InputMismatchException e) {
             System.out.println("Tienes que introducir un número válido:");
             sc.nextLine(); // Limpiar entrada errónea
