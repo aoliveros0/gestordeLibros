@@ -47,7 +47,7 @@ public  TUI() {
         return crear;
     }
 
-
+    // Este lee los datos que escribimos cuando queremos actualizar.
     public static String[] leerdatosActualizar() {
         String[] actualizar = new String[5];
         actualizar[0] = pedirdatos("nuevo título");
@@ -114,10 +114,6 @@ public  TUI() {
         for (Libros l : librosImprimir) {
             imprimirLibros(l);
         }
-
-    }
-    public static void mostrarerror(String m){
-        System.out.println("Error: " + m);
     }
 }
 
