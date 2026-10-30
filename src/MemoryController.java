@@ -14,7 +14,7 @@ public class MemoryController {
     // Por ultimo añadimos el libro a nuestra biblioteca y lo devolvemos con los dtos correspondientes.
     // el libres.containsKey como es el ISBN si creamos uno como por ejemplo 1 si lo volvemos a repetir te salta el error de que este ISBN ya esta en uso.
     public Libros crearLibro(String ISBN, String titol, float preu, String autor, int any, String genere)
-            throws IOException {
+            throws IOException,TitolException,PreuException,AutorException,AnyException,GenereException {
         if(libres.containsKey(ISBN)) {
             throw new IllegalArgumentException("ISBN ja existe");
         }
@@ -50,7 +50,7 @@ public class MemoryController {
         }
     }
     // En este metodo basicamente escribes el ISBN del libro que quieres eliminar y desaparece de la biblioteca.
-    public boolean eliminarLibro(String isbnEliminar) throws IOException {
+    public boolean eliminarLibro(String isbnEliminar) throws IOException,TitolException, PreuException, AutorException, AnyException, GenereException {
         Libros borrado = libres.remove(isbnEliminar);
         return borrado != null;
     }

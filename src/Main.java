@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class Main {
     private static Scanner sc = new Scanner(System.in);
 
-    public static void main(String[] args) throws IOException, IllegalArgumentException, RuntimeException, GenereException, PreuException, TitolException, AnyException, AutorException {
+    public static void main(String[] args) throws IOException, RuntimeException, GenereException, PreuException, TitolException, AnyException, AutorException {
         sc.useLocale(Locale.ENGLISH);
 
         MemoryController mcontroller = new FileController();
@@ -66,8 +66,8 @@ public class Main {
         } while (opcion != 5);
     }
 
-    public static void crear(MemoryController m) throws IOException {
-        try {
+    public static void crear(MemoryController m) throws IOException, TitolException, PreuException, AnyException, AutorException {
+
             String ISBN = TUI.pedirdatos("ISBN");
             String titol = TUI.pedirdatos("titol");
             float preu = Float.parseFloat(TUI.pedirdatos("preu"));
@@ -75,15 +75,18 @@ public class Main {
             int any = Integer.parseInt(TUI.pedirdatos("any"));
 
             String genere = TUI.pedirdatos("genere");
-
-            Libros nuevoLibro = m.crearLibro(ISBN, titol, preu, autor, any, genere);
-            TUI.imprimirLibros(nuevoLibro);
-
-        } catch (NumberFormatException e) {
-            System.out.println("Error: el precio o el año no son válidos.");
-        } catch (IllegalArgumentException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
+            try {
+                Libros nuevoLibro = m.crearLibro(ISBN, titol, preu, autor, any, genere);
+                TUI.imprimirLibros(nuevoLibro);
+            } catch (TitolException tl){
+                System.out.println("Titol no encontrado: " + tl.getMessage());
+            } catch (PreuException pr) {
+                System.out.println("Error: el precio  no es valido." + pr.getMessage());
+            } catch (AutorException at) {
+                System.out.println("Perdona pero ese campo esta incorrecto  " + at.getMessage());
+            } catch (AnyException | GenereException ane){
+                System.out.println("Error: no se puede ingresar los datos: " + ane.getMessage());
+            }
+    }
     }
 
-}

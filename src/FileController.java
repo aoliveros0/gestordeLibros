@@ -10,7 +10,7 @@ public class FileController extends MemoryController {
 
     // Aqui comprovamos que se ha creado correctamnete la carpeta y el archivo
     // Y si ya hemos creado un libro pues que lo cargue en el archivo.
-    public FileController() throws IOException {
+    public FileController() throws IOException,TitolException, PreuException, AutorException, AnyException, GenereException {
         if (!dataFolder.exists()) dataFolder.mkdir();
         if (!bookFile.exists()) bookFile.createNewFile();
         cargarLibros();
@@ -18,7 +18,7 @@ public class FileController extends MemoryController {
 
     @Override
     public Libros crearLibro(String ISBN, String titol, float preu, String autor, int any, String genere)
-            throws IOException {
+            throws IOException, TitolException, PreuException, AutorException, AnyException, GenereException {
         // Creamos un libro.
         Libros creador = super.crearLibro(ISBN, titol, preu, autor, any, genere);
         // Si ya tenemos un libro guardado en el fichero ponemos el true para que si hay un libro ya no se elimine y se ponga de bajo del mismo.
@@ -33,7 +33,7 @@ public class FileController extends MemoryController {
     }
 
     @Override
-    public boolean eliminarLibro(String isbn) throws IOException {
+    public boolean eliminarLibro(String isbn) throws IOException,TitolException, PreuException, AutorException, AnyException, GenereException {
         // Guardamos los datos del libro por si lo tenemos que restaurar.
         Libros viejo = super.buscarUnLibro(isbn);
         if (viejo == null) return false;
@@ -88,7 +88,7 @@ public class FileController extends MemoryController {
         }
     }
     // Este lo que hace es leer el fichero y lee todos los datos del libro.
-    public void cargarLibros() throws IOException {
+    public void cargarLibros() throws IOException,TitolException, PreuException, AutorException, AnyException, GenereException {
         try (Scanner sc = new Scanner(bookFile)) {
             while (sc.hasNextLine()) {
                 try {
