@@ -3,9 +3,12 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class FileController extends MemoryController {
+    // Aqui creamos la carpeta data y que dentro de esa carpeta se cree el arhicvo libros.txt
     private File dataFolder = new File("data");
-    private File bookFile = new File(dataFolder, "libro.txt");
+    private File bookFile = new File(dataFolder, "libros.txt");
 
+    // Aqui comprovamos que se ha creado correctamnete la carpeta y el archivo
+    // Y si ya hemos creado un libro pues que lo cargue en el archivo.
     public FileController() throws IOException {
         if (!dataFolder.exists()) dataFolder.mkdir();
         if (!bookFile.exists()) bookFile.createNewFile();
@@ -49,7 +52,7 @@ public class FileController extends MemoryController {
 
     @Override
     public void actualizarLibro(String isbn, String[] datosNuevos) throws IOException {
-        // Lo primeor que hago es guardar como esta ahora mismo el ficheo por si hay que restaurarlo.
+        // Lo primero  que hago es guardar como esta ahora mismo el ficheo por si hay que restaurarlo.
         Libros a = super.buscarUnLibro(isbn);
         if (a == null) return;
 
@@ -103,3 +106,4 @@ public class FileController extends MemoryController {
          }
      }
 }
+
