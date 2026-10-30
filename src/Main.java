@@ -1,13 +1,16 @@
 
+import excepciones.*;
+
 import java.io.IOException;
-import java.util.InputMismatchException;
-import java.util.List;
+
 import java.util.Locale;
 import java.util.Scanner;
 
+
 public class Main {
     private static Scanner sc = new Scanner(System.in);
-    public static void main(String[] args) throws IOException {
+
+    public static void main(String[] args) throws IOException, IllegalArgumentException, RuntimeException, GenereException, PreuException, TitolException, AnyException, AutorException {
         sc.useLocale(Locale.ENGLISH);
 
         MemoryController mcontroller = new FileController();
@@ -18,13 +21,7 @@ public class Main {
             opcion = TUI.devolver();
 
             if (opcion == 1) {
-                try {
-                    String[] datos = TUI.leerdatos();
-                    mcontroller.crearLibro(datos[0], datos[1], Float.parseFloat(datos[2]), datos[3], Integer.parseInt(datos[4]), datos[5]);
-                    System.out.println("El Libro se ha añadido correctamente. ");
-                } catch (Exception e) {
-                    System.out.println("Error al añadir el libro: " + e.getMessage());
-                }
+                crear(mcontroller);
             } else if (opcion == 2) {
                 int buscar = TUI.buscarLibro();
                 if (buscar == 1) {
@@ -69,4 +66,24 @@ public class Main {
         } while (opcion != 5);
     }
 
+    public static void crear(MemoryController m) throws IOException {
+        try {
+            String ISBN = TUI.pedirdatos("ISBN");
+            String titol = TUI.pedirdatos("titol");
+            float preu = Float.parseFloat(TUI.pedirdatos("preu"));
+            String autor = TUI.pedirdatos("autor");
+            int any = Integer.parseInt(TUI.pedirdatos("any"));
+
+            String genere = TUI.pedirdatos("genere");
+
+            Libros nuevoLibro = m.crearLibro(ISBN, titol, preu, autor, any, genere);
+            TUI.imprimirLibros(nuevoLibro);
+
+        } catch (NumberFormatException e) {
+            System.out.println("Error: el precio o el año no son válidos.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
+
+}

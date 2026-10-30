@@ -1,3 +1,5 @@
+import excepciones.*;
+
 public class Libros {
     private String ISBN;
     private String titol;
@@ -18,9 +20,9 @@ public class Libros {
         return titol;
     }
 
-    public void setTitol(String titol) {
+    public void setTitol(String titol) throws TitolException {
         if(titol == null || titol.isEmpty()){
-            throw new RuntimeException("Titol nul !");
+            throw new TitolException("Titol nul !");
         }
         this.titol = titol;
     }
@@ -29,9 +31,9 @@ public class Libros {
         return preu;
     }
 
-    public void setPreu(float preu) {
+    public void setPreu(float preu) throws PreuException {
         if(preu <= 0 || Float.isNaN(preu)){
-            throw new IllegalArgumentException("Eso no se puede");
+            throw new PreuException("Eso no se puede");
 
         }
         this.preu = preu;
@@ -41,9 +43,9 @@ public class Libros {
         return autor;
     }
 
-    public void setAutor(String autor) {
+    public void setAutor(String autor) throws AutorException {
         if(autor == null || autor.isEmpty()){
-            throw new IllegalArgumentException("Autor nul !");
+            throw new AutorException("Autor nul !");
         }
         this.autor = autor;
     }
@@ -52,9 +54,9 @@ public class Libros {
         return any;
     }
 
-    public void setAny(int any) {
+    public void setAny(int any) throws AnyException {
         if(any < 1950 || any > 2026){
-            throw new IllegalArgumentException("Eso no se puede");
+            throw new AnyException("Eso no se puede");
         }
         this.any = any;
 
@@ -64,9 +66,9 @@ public class Libros {
         return genere;
     }
 
-    public void setGenere(String genere) {
+    public void setGenere(String genere) throws GenereException {
         if(genere == null || genere.isEmpty()){
-            throw new IllegalArgumentException("Eso no se puede");
+            throw new GenereException("Eso no se puede");
         }
         this.genere = genere;
     }

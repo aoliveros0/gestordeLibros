@@ -2,6 +2,8 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
+import excepciones.*;
+
 
 public class MemoryController {
 
@@ -37,7 +39,7 @@ public class MemoryController {
     // Y dentro de ese if añadimos los nuevos datos modificados.
     // Al tener un float y un int hay que hacer una conversion a los datos de precio y año.
     public void actualizarLibro(String isbnActualizar, String[] datos)
-            throws IOException {
+            throws IOException, TitolException, PreuException, AutorException, AnyException, GenereException {
         Libros libroActualizar = libres.get(isbnActualizar);
         if (libroActualizar != null) {
             libroActualizar.setTitol(datos[0]);

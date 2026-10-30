@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import excepciones.*;
 
 public class FileController extends MemoryController {
     // Aqui creamos la carpeta data y que dentro de esa carpeta se cree el arhicvo libros.txt
@@ -51,7 +52,7 @@ public class FileController extends MemoryController {
     }
 
     @Override
-    public void actualizarLibro(String isbn, String[] datosNuevos) throws IOException {
+    public void actualizarLibro(String isbn, String[] datosNuevos) throws IOException, GenereException, PreuException, TitolException, AnyException, AutorException {
         // Lo primero  que hago es guardar como esta ahora mismo el ficheo por si hay que restaurarlo.
         Libros a = super.buscarUnLibro(isbn);
         if (a == null) return;
@@ -72,38 +73,37 @@ public class FileController extends MemoryController {
             throw e;
         }
     }
-     // Lo que hace es escribir todos los libros que tenemos en el fichero.
-     private void guardarTodo() throws IOException {
-         try (FileWriter fw = new FileWriter(bookFile)) {
-             for (Libros l : super.buscarTodosLibros()) {
-                 fw.write("ISBN: " + "Titol: "+ "Preu: " + "Autor: " + "Any: " + "Genere: " + "\n");
-                 fw.write(l.getISBN() +
-                         l.getTitol() +
-                         l.getPreu() +
-                         l.getAutor() +
-                         l.getAny() +
-                         l.getGenere() + "\n");
-             }
-         }
-     }
-     // Este lo que hace es leer el fichero y lee todos los datos del libro.
-     public void cargarLibros() throws IOException {
-         try (Scanner sc = new Scanner(bookFile)) {
-             while (sc.hasNextLine()) {
-                 try {
-                     String ISBN = sc.nextLine();
-                     String titol = sc.nextLine();
-                     float preu = Float.parseFloat(sc.nextLine());
-                     String autor = sc.nextLine();
-                     int any = Integer.parseInt(sc.nextLine());
-                     String genere = sc.nextLine();
-                     super.crearLibro(ISBN, titol, preu, autor, any, genere);
-                 } catch (NoSuchElementException | NumberFormatException e) {
-                     System.out.println("Fichero con formato incorrecto, se ignora el resto.");
-                     break;
-                 }
-             }
-         }
-     }
+    // Lo que hace es escribir todos los libros que tenemos en el fichero.
+    private void guardarTodo() throws IOException {
+        try (FileWriter fw = new FileWriter(bookFile)) {
+            for (Libros l : super.buscarTodosLibros()) {
+                fw.write("ISBN: " + "Titol: "+ "Preu: " + "Autor: " + "Any: " + "Genere: " + "\n");
+                fw.write(l.getISBN() +
+                        l.getTitol() +
+                        l.getPreu() +
+                        l.getAutor() +
+                        l.getAny() +
+                        l.getGenere() + "\n");
+            }
+        }
+    }
+    // Este lo que hace es leer el fichero y lee todos los datos del libro.
+    public void cargarLibros() throws IOException {
+        try (Scanner sc = new Scanner(bookFile)) {
+            while (sc.hasNextLine()) {
+                try {
+                    String ISBN = sc.nextLine();
+                    String titol = sc.nextLine();
+                    float preu = Float.parseFloat(sc.nextLine());
+                    String autor = sc.nextLine();
+                    int any = Integer.parseInt(sc.nextLine());
+                    String genere = sc.nextLine();
+                    super.crearLibro(ISBN, titol, preu, autor, any, genere);
+                } catch (NoSuchElementException | NumberFormatException e) {
+                    System.out.println("Fichero con formato incorrecto, se ignora el resto.");
+                    break;
+                }
+            }
+        }
+    }
 }
-
