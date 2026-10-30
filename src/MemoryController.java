@@ -4,11 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MemoryController {
+
     private HashMap<String, Libros> libres = new HashMap<>();
 
     // Este metodo es el que crea los libros con los datos solicitados.
     // Luego hacemos una clase para el libro y poner los datos necesarios.
-    // Por ultimo añadimos el libro a nuestra biblioteca y lo devolvemos.
+    // Por ultimo añadimos el libro a nuestra biblioteca y lo devolvemos con los dtos correspondientes.
+    // el libres.containsKey como es el ISBN si creamos uno como por ejemplo 1 si lo volvemos a repetir te salta el error de que este ISBN ya esta en uso.
     public Libros crearLibro(String ISBN, String titol, float preu, String autor, int any, String genere)
             throws IOException {
         if(libres.containsKey(ISBN)) {
@@ -20,6 +22,7 @@ public class MemoryController {
     }
 
     // Este metodo hace que lamba muestre toda la lista de los libros que se encuentran.
+    // Aqui basicamente si escoges la opcion 2 y selecionas mostrar todos te aparecen todos los libros que se encuentran actualmente en el fichero.
     public List<Libros> buscarTodosLibros() {
         return libres.values().stream().toList();
     }
