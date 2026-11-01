@@ -3,12 +3,12 @@ import java.util.List;
 import java.util.Scanner;
 
 public class TUI {
-    static Scanner sc = new Scanner(System.in);
+    private Scanner sc = new Scanner(System.in);
 
-public  TUI() {
-}
-    // Es el menu principal que aparece al iniciar el programa.
-    public static void menu() {
+    public TUI() {
+    }
+
+    public void menu() {
         System.out.println("\n------ GESTOR DE LIBROS ------");
         System.out.println("1. Añadir libro ");
         System.out.println("2. Biblioteca ");
@@ -16,27 +16,26 @@ public  TUI() {
         System.out.println("4. Eliminar libro ");
         System.out.println("5. Salir  ");
         System.out.print("Opción: ");
-
     }
-    // Este basicamente devuelve la opcion que escoges si es añadir etc .
-    public static int devolver() {
+
+    public int devolver() {
         try {
             int valor = sc.nextInt();
             sc.nextLine();
             return valor;
         } catch (InputMismatchException e) {
             System.out.println("Tienes que introducir un número válido:");
-            sc.nextLine(); // Limpiar entrada errónea
+            sc.nextLine();
             return devolver();
         }
     }
-    // Esta es la frase que aparece cuando empiezas a añadir libros.
-    public static String pedirdatos(String datos) {
+
+    public String pedirdatos(String datos) {
         System.out.print("Introduce el " + datos + ": ");
         return sc.nextLine();
     }
-    // Este sirve para leer la informacion escrita.
-    public static String[] leerdatos() {
+
+    public String[] leerdatos() {
         String[] crear = new String[6];
         crear[0] = pedirdatos("ISBN");
         crear[1] = pedirdatos("título");
@@ -47,8 +46,7 @@ public  TUI() {
         return crear;
     }
 
-    // Este lee los datos que escribimos cuando queremos actualizar.
-    public static String[] leerdatosActualizar() {
+    public String[] leerdatosActualizar() {
         String[] actualizar = new String[5];
         actualizar[0] = pedirdatos("nuevo título");
         actualizar[1] = pedirdatos("nuevo precio");
@@ -57,8 +55,8 @@ public  TUI() {
         actualizar[4] = pedirdatos("nuevo género");
         return actualizar;
     }
-    // Este es el de buscar por ejemplo puedes ver toda la lista entera o por el ISBN.
-    public static int buscarLibro() {
+
+    public int buscarLibro() {
         System.out.println("1. Mostrar todos");
         System.out.println("2. Mostrar uno por ISBN");
         System.out.print("Opción: ");
@@ -66,38 +64,38 @@ public  TUI() {
         sc.nextLine();
         return opcion;
     }
-    // Basicamente es lo de arriba pero lo buscas por el ISBN.
-    public static String buscarISBN() {
+
+    public String buscarISBN() {
         System.out.print("Introduce el ISBN: ");
         return sc.nextLine();
     }
-    // Cuando escribes un ISBN no exsistente
-    public static void libroNoEncontrado() {
+
+    public void libroNoEncontrado() {
         System.out.println("ISBN no encontrado.");
     }
-    // Para actualizar un libro te pide añadir el isbn del contacto que quieres hacer los cambios.
-    public static String actualizarlibro() {
+
+    public String actualizarlibro() {
         System.out.print("Introduce el ISBN del libro a actualizar: ");
         return sc.nextLine();
     }
-    // El mensaje que aparece cuando haces la actualizacion correctamente.
-    public static void libroactualizado() {
+
+    public void libroactualizado() {
         System.out.println("Libro actualizado correctamente.");
     }
-    // Cuando borras un libro.
-    public static void librooelimindo() {
+
+    public void librooelimindo() {
         System.out.println("Libro eliminado correctamente.");
     }
-    // Cuando escoges una opcion que no se encuentra en el programa.
-    public static void opcionincorrecto() {
+
+    public void opcionincorrecto() {
         System.out.println("Has escogido una opcion que no se encuetra en este programa.");
     }
-    // Cuando escoges la opcion 5.
-    public static void finalitzaprograma() {
+
+    public void finalitzaprograma() {
         System.out.println("Finalitza el programa.");
     }
-    // Imprime los datos de los libros.
-    public static void imprimirLibros(Libros l) {
+
+    public void imprimirLibros(Libros l) {
         System.out.println("ISBN: " + l.getISBN() +
                 " | Título: " + l.getTitol() +
                 " | Precio: " + l.getPreu() +
@@ -105,8 +103,8 @@ public  TUI() {
                 " | Año: " + l.getAny() +
                 " | Género: " + l.getGenere());
     }
-    // Lo que confirma si se ha imprimpido correctamente el libro o no.
-    public static void imprimirLibro(List<Libros> librosImprimir) {
+
+    public void imprimirLibro(List<Libros> librosImprimir) {
         if (librosImprimir.isEmpty()) {
             System.out.println("No hay libros registrados.");
             return;
@@ -115,5 +113,8 @@ public  TUI() {
             imprimirLibros(l);
         }
     }
-}
 
+    public void mostrarerror(String m) {
+        System.out.println("Error: " + m);
+    }
+}

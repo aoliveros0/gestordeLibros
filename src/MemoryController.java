@@ -14,7 +14,7 @@ public class MemoryController {
     // Por ultimo añadimos el libro a nuestra biblioteca y lo devolvemos con los dtos correspondientes.
     // el libres.containsKey como es el ISBN si creamos uno como por ejemplo 1 si lo volvemos a repetir te salta el error de que este ISBN ya esta en uso.
     public Libros crearLibro(String ISBN, String titol, float preu, String autor, int any, String genere)
-            throws IOException,TitolException,PreuException,AutorException,AnyException,GenereException {
+            throws IOException,ISBNException,TitolException,PreuException,AutorException,AnyException,GenereException {
         if(libres.containsKey(ISBN)) {
             throw new IllegalArgumentException("ISBN ja existe");
         }
@@ -39,7 +39,7 @@ public class MemoryController {
     // Y dentro de ese if añadimos los nuevos datos modificados.
     // Al tener un float y un int hay que hacer una conversion a los datos de precio y año.
     public void actualizarLibro(String isbnActualizar, String[] datos)
-            throws IOException, TitolException, PreuException, AutorException, AnyException, GenereException {
+            throws IOException,ISBNException, TitolException, PreuException, AutorException, AnyException, GenereException {
         Libros libroActualizar = libres.get(isbnActualizar);
         if (libroActualizar != null) {
             libroActualizar.setTitol(datos[0]);
@@ -50,7 +50,7 @@ public class MemoryController {
         }
     }
     // En este metodo basicamente escribes el ISBN del libro que quieres eliminar y desaparece de la biblioteca.
-    public boolean eliminarLibro(String isbnEliminar) throws IOException,TitolException, PreuException, AutorException, AnyException, GenereException {
+    public boolean eliminarLibro(String isbnEliminar) throws IOException,ISBNException,TitolException, PreuException, AutorException, AnyException, GenereException {
         Libros borrado = libres.remove(isbnEliminar);
         return borrado != null;
     }

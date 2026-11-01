@@ -1,5 +1,7 @@
 import excepciones.*;
 
+import java.io.IOException;
+
 public class Libros {
     private String ISBN;
     private String titol;
@@ -12,7 +14,10 @@ public class Libros {
         return ISBN;
     }
 
-    public void setISBN(String ISBN) {
+    public void setISBN(String ISBN) throws ISBNException {
+        if(ISBN == null || ISBN.equals("") ||ISBN.isEmpty()){
+            throw new ISBNException("No es correcto ese ISBN");
+        }
         this.ISBN = ISBN;
     }
 
@@ -73,13 +78,14 @@ public class Libros {
         this.genere = genere;
     }
     // Constructor.
-    public Libros(String ISBN, String titol, float preu, String autor, int any, String genere) {
-        this.ISBN = ISBN;
-        this.titol = titol;
-        this.preu = preu;
-        this.autor = autor;
-        this.any = any;
-        this.genere = genere;
+    public Libros(String ISBN, String titol, float preu, String autor, int any, String genere)
+            throws ISBNException, TitolException, PreuException, AutorException, AnyException, GenereException {
+        this.setISBN(ISBN);
+        this.setTitol(titol);
+        this.setPreu(preu);
+        this.setAutor(autor);
+        this.setAny(any);
+        this.setGenere(genere);
     }
 
 

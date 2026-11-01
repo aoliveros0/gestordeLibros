@@ -10,7 +10,7 @@ public class FileController extends MemoryController {
 
     // Aqui comprovamos que se ha creado correctamnete la carpeta y el archivo
     // Y si ya hemos creado un libro pues que lo cargue en el archivo.
-    public FileController() throws IOException,TitolException, PreuException, AutorException, AnyException, GenereException {
+    public FileController() throws IOException, ISBNException,TitolException, PreuException, AutorException, AnyException, GenereException {
         if (!dataFolder.exists()) dataFolder.mkdir();
         if (!bookFile.exists()) bookFile.createNewFile();
         cargarLibros();
@@ -18,12 +18,12 @@ public class FileController extends MemoryController {
 
     @Override
     public Libros crearLibro(String ISBN, String titol, float preu, String autor, int any, String genere)
-            throws IOException, TitolException, PreuException, AutorException, AnyException, GenereException {
+            throws IOException, ISBNException, TitolException, PreuException, AutorException, AnyException, GenereException, ISBNException {
         // Creamos un libro.
         Libros creador = super.crearLibro(ISBN, titol, preu, autor, any, genere);
         // Si ya tenemos un libro guardado en el fichero ponemos el true para que si hay un libro ya no se elimine y se ponga de bajo del mismo.
         try (FileWriter fw = new FileWriter(bookFile, true)) {
-            fw.write(ISBN +  titol +   preu +  autor + any + genere + "\n");
+            fw.write(ISBN + ";"+ titol + ";"+  preu + ";"+ autor + ";"+ any +";"+ genere + "\n");
         } catch (IOException e) {
             // Si por algun casual no se crea correctamente el libro lanzo una excepcion avisando de que ha habido un problema.
             super.eliminarLibro(ISBN);
@@ -33,7 +33,7 @@ public class FileController extends MemoryController {
     }
 
     @Override
-    public boolean eliminarLibro(String isbn) throws IOException,TitolException, PreuException, AutorException, AnyException, GenereException {
+    public boolean eliminarLibro(String isbn) throws IOException,ISBNException,TitolException, PreuException, AutorException, AnyException, GenereException {
         // Guardamos los datos del libro por si lo tenemos que restaurar.
         Libros viejo = super.buscarUnLibro(isbn);
         if (viejo == null) return false;
@@ -52,7 +52,7 @@ public class FileController extends MemoryController {
     }
 
     @Override
-    public void actualizarLibro(String isbn, String[] datosNuevos) throws IOException, GenereException, PreuException, TitolException, AnyException, AutorException {
+    public void actualizarLibro(String isbn, String[] datosNuevos) throws IOException, GenereException, PreuException, TitolException, AnyException, AutorException, ISBNException {
         // Lo primero  que hago es guardar como esta ahora mismo el ficheo por si hay que restaurarlo.
         Libros a = super.buscarUnLibro(isbn);
         if (a == null) return;
@@ -78,12 +78,8 @@ public class FileController extends MemoryController {
         try (FileWriter fw = new FileWriter(bookFile)) {
             for (Libros l : super.buscarTodosLibros()) {
                 fw.write("ISBN: " + "Titol: "+ "Preu: " + "Autor: " + "Any: " + "Genere: " + "\n");
-                fw.write(l.getISBN() +
-                        l.getTitol() +
-                        l.getPreu() +
-                        l.getAutor() +
-                        l.getAny() +
-                        l.getGenere() + "\n");
+                fw.write(l.getISBN() + ";" + l.getTitol() + ";" + l.getPreu() + l.getAutor() + ";" + l.getAny() + ";" + l.getGenere() + "\n");
+
             }
         }
     }
@@ -102,6 +98,8 @@ public class FileController extends MemoryController {
                 } catch (NoSuchElementException | NumberFormatException e) {
                     System.out.println("Fichero con formato incorrecto, se ignora el resto.");
                     break;
+                } catch (ISBNException e) {
+                    throw new RuntimeException(e);
                 }
             }
         }
