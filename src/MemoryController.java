@@ -6,7 +6,7 @@ import excepciones.*;
 
 
 public class MemoryController {
-
+   // Creo un HashMap porque es como si fuera un diccionario asi es mejor para guadar los libros. 
     private HashMap<String, Libros> libres = new HashMap<>();
 
     // Este metodo es el que crea los libros con los datos solicitados.
