@@ -108,9 +108,13 @@ public class FileController extends MemoryController {
                     System.out.println("Línea con formato incorrecto, se ignora: " + linea);
                     continue;
                 }
+                // Lo que hago con el trim basicamente es quitar espacios tanto en el inicio como en el final de todos los datos.
+                // Por cada campo qu creo tiene una sepracion con el de al lado.
+
                 try {
                     String ISBN = campos[0].trim();
                     String titol = campos[1].trim();
+                    // Aqui solo detectra correctamente si por ejemplom pongo 19.99 i pongo 19.99 se ira a la excepcion.
                     float preu = Float.parseFloat(campos[2].trim().replace(',', '.'));
                     String autor = campos[3].trim();
                     int any = Integer.parseInt(campos[4].trim());
