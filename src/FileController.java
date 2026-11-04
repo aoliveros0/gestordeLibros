@@ -31,7 +31,7 @@ public class FileController extends MemoryController {
                 fw.write("ISBN" + " " + "Titol" + " " + "Preu" + " " + "Autor" + " " + "Any" + " " + "Genere"+"\n");
             }
             // Aqui ya creo con normalidad el libro.
-            fw.write(ISBN + " ; " + titol + " ; " + preu + " ; " + autor + " ; " + any + " ; " + genere + "\n");
+            fw.write(ISBN + "; " + titol + "; " + preu + "; " + autor + "; " + any + "; " + genere + "\n");
         } catch (IOException e) {
             super.eliminarLibro(ISBN);
             throw e;
@@ -85,7 +85,7 @@ public class FileController extends MemoryController {
     private void guardarTodo() throws IOException {
         try (FileWriter fw = new FileWriter(bookFile)) {
             for (Libros l : super.buscarTodosLibros()) {
-                fw.write("ISBN: " + "Titol: " + "Preu: " + "Autor: " + "Any: " + "Genere: " + "\n");
+                fw.write("ISBN "+ " " + "Titol "+ " " + "Preu "+ " " + "Autor "+ " " + "Any "+ " " + "Genere " + "\n");
                 fw.write(l.getISBN() + ";" + l.getTitol() + ";" + l.getPreu() + l.getAutor() + ";" + l.getAny() + ";" + l.getGenere() + "\n");
 
             }
